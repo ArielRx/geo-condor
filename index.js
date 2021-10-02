@@ -1,11 +1,44 @@
 const express = require('express')
+const dotenv = require('dotenv');
+const connectDB = require('./config/db')
+
+// Load config
+dotenv.config({ path: "./config/config.env" })
+
+connectDB()
+
 const app = express()
-const port = 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// EJS
+app.set('view engine', 'ejs')
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+// Body parser
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+
+// Logging
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
+
+// Handlebars Helpers
+// const {
+//   formatDate,
+//   stripTags,
+//   truncate,
+//   editIcon,
+//   select,
+// } = require('./helpers/hbs')
+
+// Static folder
+// app.use(express.static(path.join(__dirname, 'public')))
+
+// Routes
+app.use('/', require('./routes/index'))
+// app.use('/auth', require('./routes/auth'))
+
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`)
 })
