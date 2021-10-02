@@ -1,0 +1,22 @@
+{
+  "name": "geo-condor",
+  "version": "1.0.0",
+  "description": "GeoCondor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArielRx/geo-condor.git"
+  },
+  "author": "Spartan Tech",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArielRx/geo-condor/issues"
+  },
+  "homepage": "https://github.com/ArielRx/geo-condor#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
