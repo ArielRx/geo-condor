@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
+const axios = require("axios").default;
 const FormData = require("form-data");
 
 // @desc    Show forum page
@@ -39,6 +39,7 @@ async function getAccessToken() {
 // @desc Get MultiPart request
 async function getMultiPartRequest() {
   const formData = new FormData();
+  // formData.setBoundary('GEOCONDOR2021');
   let request = {
       "input": {
           "bounds": {
@@ -113,10 +114,17 @@ async function getMultiPartRequest() {
   //   },
   // };
 
-  // const token = await getAccessToken();
+  const token = await getAccessToken();
 
-  formData.append("request", JSON.stringify(request));
-  formData.append("evalscript", (evalscript));
+  
+  let options = {
+    header: {
+       'Authorization': 'Bearer ' + token
+   }
+  };
+  
+    formData.append("request", JSON.stringify(request), options);
+    formData.append("evalscript", (evalscript), options);
   // formData.append("Authorization", JSON.stringify(token));
   // formData.setBoundary
 
@@ -127,20 +135,19 @@ async function getMultiPartRequest() {
 // @route   POST /true_color
 router.post("/true_color", async (req, res) => {
   try {
-    // const response = await axios.post(process.env.SENTINEL_AUTH_URL, params, config);
-    // const access_token = response.data.access_token;
-    // console.log(response);
     const token = await getAccessToken();
 
     // Authentication Headers
-    const authConfig = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'content-type': 'multipart/form-data',
-      },
-    };
+    // const authConfig = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     'content-type': 'multipart/form-data; boundary=--------------------------851717720672464852269708',
+    //     // 'boundary': 'GEOCONDOR2021',
+    //     // 'content-type': 'undefined',
+    //   },
+    // };
 
-    let request = await getMultiPartRequest();
+    // let request = await getMultiPartRequest();
 
     // console.log(request);
 
@@ -151,13 +158,37 @@ router.post("/true_color", async (req, res) => {
     // console.log(headers);
     // headers.append('Authorization', `Bearer ${token}`);
 
-    let response = await axios.post(
-      process.env.SENTINEL_TRUE_COLOR_URL,
-      request,
-      authConfig
-    );
+    // console.log(request.getHeaders());
 
-    res.send(response);
+    // let headers = request.getHeaders();
+
+    // // headers.Authorization = `Bearer ${token}`
+
+    // let response = await axios.post(
+    //   process.env.SENTINEL_TRUE_COLOR_URL,
+    //   request,
+    //   // request.getHeaders()
+    //   authConfig
+    //   // headers
+    // );
+
+    var options = {
+      method: 'POST',
+      url: 'https://services.sentinel-hub.com/api/v1/process',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'content-type': 'multipart/form-data; boundary=---011000010111000001101001'
+      },
+      data: '-----011000010111000001101001\r\nContent-Disposition: form-data; name="request"\r\n\r\n{\n    "input": {\n        "bounds": {\n            "properties": {\n                "crs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"\n            },\n            "bbox": [\n                13.822174072265625,\n                45.85080395917834,\n                14.55963134765625,\n                46.29191774991382\n            ]\n        },\n        "data": [\n            {\n                "type": "sentinel-2-l2a",\n                "dataFilter": {\n                    "timeRange": {\n                        "from": "2018-10-01T00:00:00Z",\n                        "to": "2018-12-31T00:00:00Z"\n                    }\n                }\n            }\n        ]\n    },\n    "output": {\n        "width": 512,\n        "height": 512\n    }\n}\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name="evalscript"\r\n\r\n//VERSION=3\n\nfunction setup() {\n  return {\n    input: ["B02", "B03", "B04"],\n    output: { bands: 3 }\n  }\n}\n\nfunction evaluatePixel(sample) {\n  return [2.5 * sample.B04, 2.5 * sample.B03, 2.5 * sample.B02]\n}\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=""\r\n\r\n\r\n-----011000010111000001101001--\r\n'
+    };
+    
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+      res.send(response);
+    }).catch(function (error) {
+      console.error(error);
+    });
+
   } catch (error) {
     console.error(error);
   }
