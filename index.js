@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Routes
 app.use('/', require('./routes/index'))
 app.use('/forum', require('./routes/forum'))
-// app.use('/auth', require('./routes/auth'))
+app.use('/sentinel', require('./routes/thirdAPI'))
 
 const PORT = process.env.PORT || 3000
 

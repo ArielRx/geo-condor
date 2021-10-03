@@ -17,11 +17,13 @@
   },
   "homepage": "https://github.com/ArielRx/geo-condor#readme",
   "dependencies": {
+    "axios": "^0.22.0",
     "connect-mongo": "^4.6.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "form-data": "^4.0.0",
     "method-override": "^3.0.0",
     "moment": "^2.29.1",
     "mongoose": "^6.0.8",
