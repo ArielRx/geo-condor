@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv');
+const path = require('path')
 const connectDB = require('./config/db')
 
 // Load config
@@ -35,10 +36,11 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.use('/', require('./routes/index'))
+app.use('/forum', require('./routes/forum'))
 // app.use('/auth', require('./routes/auth'))
 
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
+  console.log(`GeoCondor app listening at http://localhost:${PORT}`)
 })
