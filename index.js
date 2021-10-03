@@ -22,17 +22,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
-// Handlebars Helpers
-// const {
-//   formatDate,
-//   stripTags,
-//   truncate,
-//   editIcon,
-//   select,
-// } = require('./helpers/hbs')
-
 // Static folder
-// app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
 app.use('/', require('./routes/index'))
