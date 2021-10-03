@@ -137,57 +137,19 @@ router.post("/true_color", async (req, res) => {
   try {
     const token = await getAccessToken();
 
-    // Authentication Headers
-    // const authConfig = {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     'content-type': 'multipart/form-data; boundary=--------------------------851717720672464852269708',
-    //     // 'boundary': 'GEOCONDOR2021',
-    //     // 'content-type': 'undefined',
-    //   },
-    // };
+    let bbox = '[]'
 
-    // let request = await getMultiPartRequest();
-
-    // console.log(request);
-
-    // console.log(request.getHeaders());
-    // let headers = request.getHeaders();
-    // headers.Authorization = `Bearer ${token}`;
-
-    // console.log(headers);
-    // headers.append('Authorization', `Bearer ${token}`);
-
-    // console.log(request.getHeaders());
-
-    // let headers = request.getHeaders();
-
-    // // headers.Authorization = `Bearer ${token}`
-
-    // let response = await axios.post(
-    //   process.env.SENTINEL_TRUE_COLOR_URL,
-    //   request,
-    //   // request.getHeaders()
-    //   authConfig
-    //   // headers
-    // );
-
-    var options = {
-      method: 'POST',
-      url: 'https://services.sentinel-hub.com/api/v1/process',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'content-type': 'multipart/form-data; boundary=---011000010111000001101001'
-      },
-      data: '-----011000010111000001101001\r\nContent-Disposition: form-data; name="request"\r\n\r\n{\n    "input": {\n        "bounds": {\n            "properties": {\n                "crs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"\n            },\n            "bbox": [\n                13.822174072265625,\n                45.85080395917834,\n                14.55963134765625,\n                46.29191774991382\n            ]\n        },\n        "data": [\n            {\n                "type": "sentinel-2-l2a",\n                "dataFilter": {\n                    "timeRange": {\n                        "from": "2018-10-01T00:00:00Z",\n                        "to": "2018-12-31T00:00:00Z"\n                    }\n                }\n            }\n        ]\n    },\n    "output": {\n        "width": 512,\n        "height": 512\n    }\n}\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name="evalscript"\r\n\r\n//VERSION=3\n\nfunction setup() {\n  return {\n    input: ["B02", "B03", "B04"],\n    output: { bands: 3 }\n  }\n}\n\nfunction evaluatePixel(sample) {\n  return [2.5 * sample.B04, 2.5 * sample.B03, 2.5 * sample.B02]\n}\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=""\r\n\r\n\r\n-----011000010111000001101001--\r\n'
-    };
+    let request = {
+      token,
+      lat,
+      lng,
+      fecha:
+    }
     
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-      res.send(response);
-    }).catch(function (error) {
-      console.error(error);
-    });
+    let response = await axios.post(
+      process.env.PHP_SENTINEL_TRUE_COLOR,
+      request
+    );
 
   } catch (error) {
     console.error(error);
