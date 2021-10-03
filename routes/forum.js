@@ -16,8 +16,7 @@ router.get('/', (req, res) => {
 router.post('/add', async (req, res) => {
   try {
     await Forum.create(req.body)
-    // res.redirect('/forum')
-    res.sendStatus(200);
+   res.redirect('/')
   } catch (err) {
     console.error(err)
     res.render('error/500')

@@ -1,12 +1,21 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
+const Forum = require('../models/Forum');
 // @desc    Home/Landing page
 // @route   GET /
-router.get('/', (req, res) => {
-  res.render('home', {
-    layout: 'home',
-  })
+router.get('/', async (req, res) => {
+  try {
+    const data = await Forum.find();
+    res.render('home', {
+      layout: 'home',
+      data: data
+    });
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+
 })
 
 // @desc    Dashboard

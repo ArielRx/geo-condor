@@ -50,3 +50,7 @@ function placeMarker(location) {
         map: map
     });
 }
+
+$(function () {
+  $('#datetimepicker1').datetimepicker();
+});

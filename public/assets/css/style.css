@@ -818,8 +818,9 @@ section {
   text-align: center;
 }
 .testimonials .testimonial-item .testimonial-img {
-  width: 120px;
-  border-radius: 50%;
+  width: 500px;
+  height: 300px;
+  border-radius: 4%;
   border: 4px solid #fff;
   margin: 0 auto;
 }
@@ -969,6 +970,14 @@ section {
   padding: 10px 12px;
 }
 .contact .php-email-form button[type=submit] {
+  background: #0563bb;
+  border: 0;
+  padding: 10px 35px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+.btn{
   background: #0563bb;
   border: 0;
   padding: 10px 35px;
