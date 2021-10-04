@@ -77,7 +77,6 @@ async function getMultiPartRequest() {
     return {
       input: ["B02", "B03", "B04", "B08", "B11","CLM"],
       output: { bands: 3 },
-      
     };
   }
   function stretch(val, min, max) {return (val - min) / (max - min);}
@@ -139,12 +138,12 @@ router.post("/true_color", async (req, res) => {
 
     let bbox = '[]'
 
-    let request = {
-      token,
-      lat,
-      lng,
-      fecha:
-    }
+    // let request = {
+    //   token,
+    //   lat,
+    //   lng,
+    //   fecha:
+    // }
     
     let response = await axios.post(
       process.env.PHP_SENTINEL_TRUE_COLOR,
